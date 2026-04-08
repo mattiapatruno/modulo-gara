@@ -77,13 +77,13 @@ function renderNav() {
 
   const rb = document.getElementById('role-badge');
   if (rb) {
-    rb.textContent = state.isAdmin ? 'CAB Admin' : 'Delegato';
+    rb.textContent = state.isAdmin ? 'STORE Admin' : 'Delegato';
     rb.className   = state.isAdmin
       ? 'px-2.5 py-1 rounded-full text-xs font-semibold bg-indigo-100 text-indigo-700'
       : 'px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700';
   }
   const desc = document.getElementById('role-desc-sidebar');
-  if (desc) desc.textContent = state.isAdmin ? 'CAB · Vista Completa' : 'Delegato · Team Emerald';
+  if (desc) desc.textContent = state.isAdmin ? 'STORE · Vista Completa' : 'Delegato · Team Emerald';
 
   const track = document.getElementById('role-toggle-track');
   if (track) track.classList.toggle('on', state.isAdmin);
@@ -1022,7 +1022,7 @@ function toggleRole() {
   state.isAdmin = !state.isAdmin;
   renderNav();
   render();
-  showToast(state.isAdmin ? '🔑 Vista CAB Admin attivata.' : '👤 Vista Delegato attivata.', state.isAdmin ? 'indigo' : 'emerald');
+  showToast(state.isAdmin ? '🔑 Vista STORE Admin attivata.' : '👤 Vista Delegato attivata.', state.isAdmin ? 'indigo' : 'emerald');
 }
 
 // ================================================================
