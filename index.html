@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modulo Gare — Demo</title>
+
+  <!-- Tailwind v3 CDN (stable, full coverage) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui'] },
+          colors: {
+            brand: { DEFAULT: '#4f46e5', dark: '#3730a3' }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Custom animations -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Tailwind safelist for dynamically-generated team color classes -->
+  <style>
+    /* Hidden safelist — keeps Tailwind from purging dynamic classes */
+    .tw-sl {display:none}
+  </style>
+</head>
+<body class="bg-slate-100 h-screen overflow-hidden font-sans antialiased text-gray-900">
+
+<!--
+  SAFELIST: These classes are used dynamically in JS via team color maps.
+  Must stay here so Tailwind v3 CDN scans them.
+-->
+<div class="tw-sl">
+  <i class="bg-emerald-100 bg-emerald-400 bg-emerald-500 bg-emerald-600 text-emerald-700 text-emerald-800 border-emerald-200 ring-emerald-400 ring-2 from-emerald-500 to-emerald-600"></i>
+  <i class="bg-indigo-100 bg-indigo-400 bg-indigo-500 bg-indigo-600 text-indigo-700 text-indigo-800 border-indigo-200 ring-indigo-400 ring-2 from-indigo-500 to-indigo-600"></i>
+  <i class="bg-amber-100 bg-amber-400 bg-amber-500 bg-amber-600 text-amber-700 text-amber-800 border-amber-200 ring-amber-400 ring-2 from-amber-500 to-amber-600"></i>
+  <i class="bg-sky-100 bg-sky-400 bg-sky-500 bg-sky-600 text-sky-700 text-sky-800 border-sky-200 ring-sky-400 ring-2 from-sky-400 to-sky-500"></i>
+  <i class="bg-rose-100 bg-rose-400 bg-rose-500 bg-rose-600 text-rose-700 text-rose-800 border-rose-200 ring-rose-400 ring-2 from-rose-500 to-rose-600"></i>
+  <i class="border-l-4 border-l-emerald-500 border-l-indigo-500 border-l-amber-500 border-l-sky-500 border-l-rose-500"></i>
+</div>
+
+<!-- ============================================================
+     SIDEBAR
+     ============================================================ -->
+<aside id="sidebar" class="fixed left-0 top-0 h-full w-60 bg-indigo-950 flex flex-col z-40 shadow-2xl">
+
+  <!-- Brand -->
+  <div class="px-5 pt-6 pb-5 border-b border-indigo-900">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="white" class="w-5 h-5">
+          <path fill-rule="evenodd" d="M10 1c-1.716 0-3.408.106-5.07.31C3.806 1.45 3 2.414 3 3.517V16.5a.5.5 0 00.75.433l2-1.154 2 1.154a.5.5 0 00.5 0l2-1.154 2 1.154a.5.5 0 00.5 0l2-1.154 2 1.154A.5.5 0 0019 16.5V3.517c0-1.103-.806-2.068-1.93-2.207A41.403 41.403 0 0010 1zM9 9.5a.5.5 0 01.5-.5h1a.5.5 0 010 1h-1a.5.5 0 01-.5-.5zm-.75-2.25a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5zM8 13a.75.75 0 01.75-.75h2.5a.75.75 0 010 1.5h-2.5A.75.75 0 018 13z" clip-rule="evenodd"/>
+        </svg>
+      </div>
+      <div>
+        <p class="text-white font-bold text-sm leading-tight">Modulo Gare</p>
+        <p class="text-indigo-400 text-xs font-medium mt-0.5">Produzione · Demo</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nav -->
+  <nav class="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
+
+    <button class="nav-item w-full text-left" data-nav="classifica" onclick="navigate('classifica')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 flex-shrink-0">
+        <path d="M15.5 2A1.5 1.5 0 0014 3.5v13a1.5 1.5 0 003 0v-13A1.5 1.5 0 0015.5 2zM9.5 6A1.5 1.5 0 008 7.5v9a1.5 1.5 0 003 0v-9A1.5 1.5 0 009.5 6zM3.5 10A1.5 1.5 0 002 11.5v5a1.5 1.5 0 003 0v-5A1.5 1.5 0 003.5 10z"/>
+      </svg>
+      <span class="flex-1">Classifica Live</span>
+      <span class="inline-flex items-center gap-1 px-1.5 py-0.5 bg-amber-500 text-white text-xs font-bold rounded-full leading-none">
+        <span class="w-1 h-1 bg-white rounded-full live-pulse"></span>LIVE
+      </span>
+    </button>
+
+    <button class="nav-item w-full text-left" data-nav="configuratore" onclick="navigate('configuratore')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 flex-shrink-0">
+        <path fill-rule="evenodd" d="M7.84 1.804A1 1 0 018.82 1h2.36a1 1 0 01.98.804l.331 1.652a6.993 6.993 0 011.929 1.115l1.598-.54a1 1 0 011.186.447l1.18 2.044a1 1 0 01-.205 1.251l-1.267 1.113a7.047 7.047 0 010 2.228l1.267 1.113a1 1 0 01.206 1.25l-1.18 2.045a1 1 0 01-1.187.447l-1.598-.54a6.993 6.993 0 01-1.929 1.115l-.33 1.652a1 1 0 01-.98.804H8.82a1 1 0 01-.98-.804l-.331-1.652a6.993 6.993 0 01-1.929-1.115l-1.598.54a1 1 0 01-1.186-.447l-1.18-2.044a1 1 0 01.205-1.251l1.267-1.114a7.05 7.05 0 010-2.227L1.821 7.773a1 1 0 01-.206-1.25l1.18-2.045a1 1 0 011.187-.447l1.598.54A6.993 6.993 0 017.51 3.456l.33-1.652zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
+      </svg>
+      <span class="flex-1">Configuratore</span>
+    </button>
+
+    <button class="nav-item w-full text-left" data-nav="scheda" onclick="navigate('scheda')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 flex-shrink-0">
+        <path d="M10 9a3 3 0 100-6 3 3 0 000 6zM6 8a2 2 0 11-4 0 2 2 0 014 0zM1.49 15.326a.78.78 0 01-.358-.442 3 3 0 014.308-3.516 6.484 6.484 0 00-1.905 3.959c-.023.222-.014.442.025.654a4.97 4.97 0 01-2.07-.655zM16.44 15.98a4.97 4.97 0 002.07-.654.78.78 0 00.357-.442 3 3 0 00-4.308-3.517 6.484 6.484 0 011.907 3.96 2.32 2.32 0 01-.026.654zM18 8a2 2 0 11-4 0 2 2 0 014 0zM5.304 16.19a.844.844 0 01-.277-.71 5 5 0 019.947 0 .843.843 0 01-.277.71A6.975 6.975 0 0110 18a6.974 6.974 0 01-4.696-1.81z"/>
+      </svg>
+      <span class="flex-1">Scheda Riepilogativa</span>
+    </button>
+
+    <!-- Divider -->
+    <div class="pt-4 pb-1">
+      <p class="px-3 text-xs font-semibold text-indigo-600 uppercase tracking-widest">Gara Attiva</p>
+    </div>
+    <div class="mx-1 px-3 py-2.5 rounded-lg bg-indigo-900/60 border border-indigo-800">
+      <p class="text-white text-xs font-semibold truncate">🏆 Gara Q2 2026</p>
+      <p class="text-indigo-400 text-xs mt-0.5">01/apr – 30/giu 2026</p>
+    </div>
+  </nav>
+
+  <!-- Role toggle -->
+  <div class="px-4 py-4 border-t border-indigo-900 bg-indigo-950">
+    <div class="flex items-center justify-between gap-2">
+      <div class="min-w-0">
+        <p class="text-white text-sm font-semibold truncate" id="role-label-sidebar">Luca Ferretti</p>
+        <p class="text-indigo-400 text-xs mt-0.5" id="role-desc-sidebar">Delegato · Team Emerald</p>
+      </div>
+      <button onclick="toggleRole()" title="Cambia ruolo"
+              class="flex flex-col items-center gap-1 p-2 rounded-lg hover:bg-indigo-900 transition-colors flex-shrink-0">
+        <div class="toggle-track" id="role-toggle-track">
+          <div class="toggle-thumb"></div>
+        </div>
+        <span class="text-indigo-500 text-xs leading-none">CAB</span>
+      </button>
+    </div>
+  </div>
+</aside>
+
+<!-- ============================================================
+     MAIN AREA
+     ============================================================ -->
+<div id="main-content" class="ml-60 h-screen overflow-y-auto flex flex-col">
+
+  <!-- Sticky header bar -->
+  <header class="sticky top-0 z-20 bg-white/80 backdrop-blur-md border-b border-gray-200/80 px-6 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <!-- Mobile hamburger -->
+      <button id="btn-hamburger" onclick="toggleSidebar()"
+              class="p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+          <path fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z" clip-rule="evenodd"/>
+        </svg>
+      </button>
+      <h1 id="page-title" class="text-sm font-semibold text-gray-800">Classifica Live</h1>
+    </div>
+    <div class="flex items-center gap-2.5">
+      <span id="role-badge"
+            class="px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700">
+        Delegato
+      </span>
+      <div class="w-7 h-7 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-sm">LF</div>
+    </div>
+  </header>
+
+  <!-- Section containers -->
+  <main class="flex-1 p-5 min-h-0">
+    <div id="section-classifica"    class="hidden h-full"></div>
+    <div id="section-configuratore" class="hidden h-full"></div>
+    <div id="section-scheda"        class="hidden h-full"></div>
+  </main>
+</div>
+
+<!-- Mobile overlay -->
+<div id="mobile-overlay" class="hidden fixed inset-0 bg-black/50 z-30" onclick="toggleSidebar()"></div>
+
+<!-- ============================================================
+     MODALS — outside section containers
+     ============================================================ -->
+
+<!-- Modal: Crea Gara -->
+<div id="modal-crea-gara" class="modal-wrapper fixed inset-0 z-50 items-center justify-center p-4" style="display:none">
+  <div class="modal-backdrop absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="hideModal('modal-crea-gara')"></div>
+  <div class="modal-dialog relative bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden">
+    <div class="px-6 py-5 border-b border-gray-100 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 bg-emerald-100 rounded-xl flex items-center justify-center text-lg">🏆</div>
+        <h3 class="text-base font-bold text-gray-900">Crea Nuova Gara</h3>
+      </div>
+      <button onclick="hideModal('modal-crea-gara')"
+              class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 text-xl font-light transition-colors">×</button>
+    </div>
+    <div id="modal-crea-gara-body" class="px-6 py-5 max-h-[65vh] overflow-y-auto"></div>
+    <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-end gap-3">
+      <button onclick="hideModal('modal-crea-gara')"
+              class="px-4 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">Annulla</button>
+      <button onclick="saveCreaGara()"
+              class="px-5 py-2 text-sm font-semibold text-white bg-emerald-600 rounded-lg hover:bg-emerald-700 transition-colors shadow-sm">Crea Gara</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Aggiungi Criterio -->
+<div id="modal-add-criterio" class="modal-wrapper fixed inset-0 z-50 items-center justify-center p-4" style="display:none">
+  <div class="modal-backdrop absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="hideModal('modal-add-criterio')"></div>
+  <div class="modal-dialog relative bg-white rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden">
+    <div class="px-6 py-5 border-b border-gray-100 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 bg-indigo-100 rounded-xl flex items-center justify-center text-lg">📋</div>
+        <h3 class="text-base font-bold text-gray-900">Aggiungi Criterio di Punteggio</h3>
+      </div>
+      <button onclick="hideModal('modal-add-criterio')"
+              class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 text-xl font-light transition-colors">×</button>
+    </div>
+    <div id="modal-add-criterio-body" class="px-6 py-5 max-h-[65vh] overflow-y-auto"></div>
+    <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-end gap-3">
+      <button onclick="hideModal('modal-add-criterio')"
+              class="px-4 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">Annulla</button>
+      <button onclick="saveCriterio()"
+              class="px-5 py-2 text-sm font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors shadow-sm">Salva Criterio</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Aggiungi Sottogara -->
+<div id="modal-add-sottogara" class="modal-wrapper fixed inset-0 z-50 items-center justify-center p-4" style="display:none">
+  <div class="modal-backdrop absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="hideModal('modal-add-sottogara')"></div>
+  <div class="modal-dialog relative bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
+    <div class="px-6 py-5 border-b border-gray-100 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 bg-amber-100 rounded-xl flex items-center justify-center text-lg">⚡</div>
+        <h3 class="text-base font-bold text-gray-900">Aggiungi Sottogara</h3>
+      </div>
+      <button onclick="hideModal('modal-add-sottogara')"
+              class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 text-xl font-light transition-colors">×</button>
+    </div>
+    <div id="modal-add-sottogara-body" class="px-6 py-5 max-h-[65vh] overflow-y-auto"></div>
+    <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-end gap-3">
+      <button onclick="hideModal('modal-add-sottogara')"
+              class="px-4 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">Annulla</button>
+      <button onclick="saveSottogara()"
+              class="px-5 py-2 text-sm font-semibold text-white bg-amber-500 rounded-lg hover:bg-amber-600 transition-colors shadow-sm">Crea Sottogara</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Scontrino -->
+<div id="modal-scontrino" class="modal-wrapper fixed inset-0 z-50 items-center justify-center p-4" style="display:none">
+  <div class="modal-backdrop absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="hideModal('modal-scontrino')"></div>
+  <div class="modal-dialog relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden">
+    <div class="px-6 py-5 border-b border-gray-100 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 bg-gray-100 rounded-xl flex items-center justify-center text-lg">🧾</div>
+        <div>
+          <h3 id="scontrino-title" class="text-base font-bold text-gray-900">Scontrino</h3>
+          <div id="scontrino-team" class="mt-0.5"></div>
+        </div>
+      </div>
+      <button onclick="hideModal('modal-scontrino')"
+              class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 text-xl font-light transition-colors">×</button>
+    </div>
+    <div class="overflow-x-auto max-h-[55vh] overflow-y-auto">
+      <table class="w-full text-sm">
+        <thead class="bg-gray-50 sticky top-0">
+          <tr>
+            <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Quando</th>
+            <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Asset</th>
+            <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Tipo</th>
+            <th class="px-5 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Variabile</th>
+            <th class="px-5 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Punti</th>
+          </tr>
+        </thead>
+        <tbody id="scontrino-body" class="divide-y divide-gray-100"></tbody>
+      </table>
+    </div>
+    <div class="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-emerald-50 to-white border-t border-emerald-100">
+      <span class="text-sm font-semibold text-gray-600">Totale punti accumulati</span>
+      <div class="text-right">
+        <span id="scontrino-total" class="text-3xl font-extrabold text-emerald-600"></span>
+        <span class="text-base font-medium text-emerald-500 ml-1">pt</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="js/data.js"></script>
+<script src="js/simulation.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

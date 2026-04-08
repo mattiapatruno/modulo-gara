@@ -1,0 +1,181 @@
+/* ============================================================
+   MODULO GARA — Custom Styles & Animations
+   ============================================================ */
+
+/* ---- Keyframes ---- */
+@keyframes flash-score {
+  0%   { background-color: transparent; }
+  25%  { background-color: #fef08a; }
+  100% { background-color: transparent; }
+}
+
+@keyframes pulse-live {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.45; transform: scale(0.88); }
+}
+
+@keyframes slide-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes feed-in {
+  from { opacity: 0; transform: translateX(14px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes modal-in {
+  from { opacity: 0; transform: scale(0.96) translateY(8px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes rank-bounce {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+/* ---- Utility classes ---- */
+.flash-score  { animation: flash-score 0.9s ease-out; }
+.live-pulse   { animation: pulse-live 1.6s ease-in-out infinite; }
+.section-anim { animation: slide-in 0.22s ease-out; }
+.feed-item    { animation: feed-in 0.28s ease-out; }
+.modal-dialog { animation: modal-in 0.2s ease-out; }
+.rank-bounce  { animation: rank-bounce 0.4s ease-out; }
+
+/* ---- Scrollbar ---- */
+::-webkit-scrollbar         { width: 5px; height: 5px; }
+::-webkit-scrollbar-track   { background: transparent; }
+::-webkit-scrollbar-thumb   { background: #cbd5e1; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* ---- Sidebar nav item active ---- */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.625rem;
+  border-radius: 0.5rem;
+  font-size: 0.8125rem;   /* 13px */
+  font-weight: 500;
+  color: #a5b4fc;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+  text-decoration: none;
+  line-height: 1.4;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+.nav-item:hover { background-color: rgba(255,255,255,0.08); color: #e0e7ff; }
+.nav-item.active { background-color: rgba(255,255,255,0.14); color: #ffffff; }
+.nav-item.active svg { opacity: 1; }
+.nav-item svg { opacity: 0.65; flex-shrink: 0; width: 1rem; height: 1rem; }
+
+/* ---- Rank medals ---- */
+.rank-medal {
+  width: 1.5rem; height: 1.5rem;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; font-weight: 700; flex-shrink: 0;
+}
+.rank-medal.gold   { background: linear-gradient(135deg,#fbbf24,#d97706); color:#fff; }
+.rank-medal.silver { background: linear-gradient(135deg,#94a3b8,#64748b); color:#fff; }
+.rank-medal.bronze { background: linear-gradient(135deg,#d97706,#92400e); color:#fff; }
+.rank-medal.other  { background: #f1f5f9; color: #64748b; }
+
+/* ---- Points bar ---- */
+.pts-bar-fill { transition: width 0.7s cubic-bezier(.4,0,.2,1); }
+
+/* ---- Team badge colors (safelist for Tailwind CDN) ---- */
+/* These classes are referenced dynamically — keep them present so Tailwind generates them */
+.tw-safelist-emerald .bg-emerald-50  { } .tw-safelist-emerald .bg-emerald-100 { }
+.tw-safelist-emerald .bg-emerald-500 { } .tw-safelist-emerald .bg-emerald-600 { }
+.tw-safelist-emerald .text-emerald-700 { } .tw-safelist-emerald .text-emerald-800 { }
+.tw-safelist-emerald .border-emerald-200 { } .tw-safelist-emerald .ring-emerald-400 { }
+.tw-safelist-indigo  .bg-indigo-50   { } .tw-safelist-indigo  .bg-indigo-100  { }
+.tw-safelist-indigo  .bg-indigo-500  { } .tw-safelist-indigo  .bg-indigo-600  { }
+.tw-safelist-indigo  .text-indigo-700 { } .tw-safelist-indigo  .text-indigo-800 { }
+.tw-safelist-indigo  .border-indigo-200 { } .tw-safelist-indigo  .ring-indigo-400 { }
+.tw-safelist-amber   .bg-amber-50    { } .tw-safelist-amber   .bg-amber-100   { }
+.tw-safelist-amber   .bg-amber-500   { } .tw-safelist-amber   .bg-amber-600   { }
+.tw-safelist-amber   .text-amber-700 { } .tw-safelist-amber   .text-amber-800 { }
+.tw-safelist-amber   .border-amber-200 { } .tw-safelist-amber  .ring-amber-400 { }
+.tw-safelist-sky     .bg-sky-50      { } .tw-safelist-sky     .bg-sky-100     { }
+.tw-safelist-sky     .bg-sky-500     { } .tw-safelist-sky     .bg-sky-600     { }
+.tw-safelist-sky     .text-sky-700   { } .tw-safelist-sky     .text-sky-800   { }
+.tw-safelist-sky     .border-sky-200 { } .tw-safelist-sky     .ring-sky-400   { }
+.tw-safelist-rose    .bg-rose-50     { } .tw-safelist-rose    .bg-rose-100    { }
+.tw-safelist-rose    .bg-rose-500    { } .tw-safelist-rose    .bg-rose-600    { }
+.tw-safelist-rose    .text-rose-700  { } .tw-safelist-rose    .text-rose-800  { }
+.tw-safelist-rose    .border-rose-200 { } .tw-safelist-rose   .ring-rose-400  { }
+
+/* ---- Table row transitions ---- */
+.rank-row { transition: background-color 0.12s; }
+
+/* ---- Gara detail sub-tabs ---- */
+.subtab-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: pointer;
+  transition: background-color 0.12s, color 0.12s;
+  border: none; background: none;
+}
+.subtab-btn:hover { background-color: #f3f4f6; color: #374151; }
+.subtab-btn.active { background-color: #eef2ff; color: #4f46e5; }
+
+/* ---- Classifica tab buttons ---- */
+.classi-tab-btn {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: color 0.12s, border-color 0.12s;
+  white-space: nowrap;
+}
+.classi-tab-btn:hover { color: #374151; }
+.classi-tab-btn.active { color: #4f46e5; border-bottom-color: #4f46e5; }
+
+/* ---- Toggle switch ---- */
+.toggle-track {
+  width: 2.5rem; height: 1.25rem;
+  border-radius: 9999px;
+  background: #e5e7eb;
+  position: relative; cursor: pointer;
+  transition: background 0.2s;
+}
+.toggle-track.on { background: #10b981; }
+.toggle-thumb {
+  position: absolute;
+  top: 2px; left: 2px;
+  width: 1rem; height: 1rem;
+  background: white;
+  border-radius: 9999px;
+  transition: transform 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.toggle-track.on .toggle-thumb { transform: translateX(1.25rem); }
+
+/* ---- Agent row indented ---- */
+.agent-row td:first-child { padding-left: 2.5rem; }
+
+/* ---- Scontrino ---- */
+.scontrino-row:hover { background: #f8fafc; }
+
+/* ---- Responsive: hide sidebar on mobile, show content full width ---- */
+@media (max-width: 768px) {
+  #sidebar { transform: translateX(-100%); transition: transform 0.25s; }
+  #sidebar.open { transform: translateX(0); }
+  #main-content { margin-left: 0 !important; }
+  /* overlay is controlled purely by JS (add/remove 'hidden' class) — no display rule here */
+}
+@media (min-width: 769px) {
+  #mobile-overlay { display: none !important; }
+  #btn-hamburger { display: none !important; }
+}
