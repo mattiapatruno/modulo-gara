@@ -16,7 +16,7 @@ function startSimulation(onScoreEvent) {
 
   function scheduleNext() {
     if (!_simRunning) return;
-    const delay = 2000 + Math.floor(Math.random() * 1600); // 2.0–3.6 s
+    const delay = 10000; // 10 s
     _simTimer = setTimeout(tick, delay);
   }
 
